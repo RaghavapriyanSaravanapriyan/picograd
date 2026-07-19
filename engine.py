@@ -54,12 +54,3 @@ class Value:
 
     def __repr__(self):
         return f"Value(data={self.data}, grad={self.grad})"
-a = Value(1)
-b = Value(2)
-d = Value(3)
-print(a, b)
-c = a*b + d
-print(c.data)
-c.grad = 1
-c.backward()
-print(a.grad, b.grad, d.grad)
