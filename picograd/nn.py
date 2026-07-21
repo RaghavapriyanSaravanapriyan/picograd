@@ -1,5 +1,5 @@
 import random
-from engine import Value
+from picograd.engine import Value
 
 class Module:
     def zero_grad(self):
