@@ -1,3 +1,5 @@
+import math
+
 class Value:
 
     def __init__(self, data, _previous = (), _operation = ''):
@@ -44,6 +46,13 @@ class Value:
         def _backward():
             self.grad += (out.data>0)*out.grad
         out._backward = _backward
+        return out
+    def sigmoid(self):
+        out = Value(1/(1 + math.exp(-self.data)), (self,), "sigmoid")
+
+        def _backward():
+            self.grad+= (1 + math.exp(-self.data))**-2 * math.exp(-self.data)  * out.grad
+        out.backward = _backward
         return out
     
     def backward(self):
