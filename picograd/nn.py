@@ -44,7 +44,7 @@ class MLP(Module):
 
     def __init__(self, nin, nout):
         sz = [nin] + nout
-        self.layers = [Layer(sz[i], sz[i+1], nlin=i!=len(nout)-1) for i in range(len(nout))]
+        self.layers = [Layer(sz[i], sz[i+1], linearity=(i!=len(nout)-1)) for i in range(len(nout))]
     
     def __call__(self, x):
         for layer in self.layers:
@@ -56,4 +56,3 @@ class MLP(Module):
 
     def __repr__(self):
         return f"MLP of [{', '.join(str(layer) for layer in self.layers)}]"
-
