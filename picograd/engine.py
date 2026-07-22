@@ -54,6 +54,14 @@ class Value:
             self.grad+= (1 + math.exp(-self.data))**-2 * math.exp(-self.data)  * out.grad
         out.backward = _backward
         return out
+
+    def log(self):
+        out = Value(math.log(self.data), (self,), "log")
+
+        def _backward():
+            self.grad += 1/self.data * out.grad
+        out.backward = self.backward
+        return out
     
     def backward(self):
         #lets build the topological sort to traverse the nodes
