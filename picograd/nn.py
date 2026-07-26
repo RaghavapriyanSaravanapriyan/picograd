@@ -11,7 +11,7 @@ class Module:
     
 class Neuron(Module):
     def __init__(self, nin, linearity = True):
-        self.w = [Value(random.uniform(-1,1)) for _ in range(nin)]
+        self.w = [Value(random.uniform(-1,1), label = f"w{_}") for _ in range(nin)]
         self.b = Value(0)
         self.linearity = linearity
 

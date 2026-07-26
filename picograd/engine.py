@@ -2,13 +2,14 @@ import math
 
 class Value:
 
-    def __init__(self, data, _previous = (), _operation = ''):
+    def __init__(self, data, _previous = (), _operation = '', label = ''):
         self.data = data
         self.grad = 0.0
 
         self._backward = lambda: None
         self._prev = set(_previous) # set of previous nodes
         self._op = _operation # operation with which this node came about
+        self.label = label
 
     def __add__(self, other):
         other = other if isinstance(other, Value) else Value(other)
@@ -20,6 +21,10 @@ class Value:
         out._backward = _backward
 
         return out
+    
+    def __radd__(self, other):
+        return self+other
+    
     def __mul__(self, other):
         other = other if isinstance(other, Value) else Value(other)
         out = Value(self.data*other.data, (self, other), '*')
@@ -30,6 +35,18 @@ class Value:
         out._backward = _backward
 
         return out
+    
+    def __rmul__(self, other):
+        return self * other
+
+    def __neg__(self):
+        return self * -1
+
+    def __sub__(self, other):
+        return self+(-other)
+
+    def __rsub__(self, other):
+        return other + (-self)
     
     def __pow__(self, other):
         assert isinstance(other, (int, float))
@@ -52,7 +69,7 @@ class Value:
 
         def _backward():
             self.grad+= (1 + math.exp(-self.data))**-2 * math.exp(-self.data)  * out.grad
-        out.backward = _backward
+        out._backward = _backward
         return out
 
     def log(self):
@@ -60,7 +77,7 @@ class Value:
 
         def _backward():
             self.grad += 1/self.data * out.grad
-        out.backward = self.backward
+        out._backward = _backward
         return out
     
     def backward(self):
