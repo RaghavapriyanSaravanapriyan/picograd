@@ -31,6 +31,13 @@ class Value:
         out._backward = _backward
 
         return out
+
+    def __truediv__(self, other):
+        other = other if isinstance(other, Value) else Value(other)
+        return self * (other ** -1)
+
+    def __rtruediv__(self, other):
+        return other * (self**-1)
     
     def __radd__(self, other):
         return self+other
@@ -55,10 +62,6 @@ class Value:
             self.grad += (other*self.data**(other-1)) * out.grad
         out._backward = _backward
         return out
-    
-    def __truediv__(self, other):
-        other = other if isinstance(other, Value) else Value(other)
-        return self * (other ** -1)
 
     #activation functions
 
