@@ -1,10 +1,12 @@
-from picograd.graph import graphy
 from picograd.engine import Value
+from picograd.nn import Neuron
+from picograd.graph import graphy
 
-a = Value(2, label= 'a')
-b = Value(3, label='b')
-c = a*b
-c.label = 'c'
+n = Neuron(2)
+x = [Value(3.0), Value(-2.0)]
+y = n(x) #forward pass
 
-g = graphy(c)
-g.render("graph", format="svg", view=True)
+y.backward() #backprop
+
+g = graphy(y)
+g.render("test", format="svg", cleanup=True)
