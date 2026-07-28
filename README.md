@@ -9,6 +9,7 @@ picograd is a tiny scalar based autograd engine written in pure Python (~110 lin
 Picograd also includes a neural-network library implemented by stacking Value objects into neurons, neurons into layers, then layers into a full blown MLP. The MLP was then trained on make_circles dataset limited to about 100 training examples to test out the implementation. 
 
 ## Example usage of picograd
+
 ```python
 from picograd.engine import Value
 
